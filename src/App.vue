@@ -1,40 +1,54 @@
+<script setup>
+import { ref, reactive, nextTick, computed } from "vue";
+
+const store = [
+  {
+    name: "Trái táo",
+    price: 12,
+  },
+  {
+    name: "Bắp cải",
+    price: 20,
+  },
+  {
+    name: "Cà rốt",
+    price: 2,
+  },
+];
+</script>
+
 <template>
-  <div>
-    <div style="display: flex;">
-      <label for="">Full name:</label>
-      <p>{{ fullName }}</p>
-    </div>
-
-
-    <div style="display: flex;">
-      <label for="">First name:</label>
-      <p>{{ firstName }}</p>
-    </div>
-
-    <div style="display: flex;">
-      <label for="">Last name:</label>
-      <p>{{ lastName }}</p>
-    </div>
-
-    <button @click="changeName()">Change Name</button>
+  <div class="container">
+    <ul>
+      <li v-for="item in store" :key="item.name">
+        {{ item.name }} - {{ item.price }}
+      </li>
+    </ul>
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from "vue";
+<style scoped>
+.container {
+  background-color: #ccc;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-const firstName = ref("Le Hoang");
-const lastName = ref("Nhi");
+.button {
+  padding: 8px;
+  border-radius: 5px;
+}
 
-const fullName = computed({
-  get() {
-    return firstName.value + ' ' + lastName.value;
-  },
-  set(newName) {
-    [firstName.value, lastName.value] = newName.split(",");
-  }
-});
+.active:active {
+  background-color: blueviolet;
+  color: white;
+}
 
-const changeName = () => fullName.value = "Doan Dang,Khoa";
-
-</script>
+.has-error {
+  background-color: red;
+  color: white;
+}
+</style>
