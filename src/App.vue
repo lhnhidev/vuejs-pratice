@@ -5,15 +5,25 @@ const inputTodo = ref("");
 const todo = reactive([]);
 
 const addTodo = () => {
-  if (inputTodo.value.trim() === '') return;
+  if (inputTodo.value.trim() === "") return;
   const newTodo = {
-    'id': crypto.randomUUID(),
-    'work': inputTodo.value,
-  }
-  inputTodo.value = '';
+    id: crypto.randomUUID(),
+    work: inputTodo.value,
+    status: "pending",
+  };
+  inputTodo.value = "";
   todo.push(newTodo);
-}
+};
 
+const toggleLineThourgh = (id) => {
+  const done = todo.find((item) => item.id === id);
+  if (done.status === "pending") {
+    done.status = "done";
+  }
+  else {
+    done.status = "pending";
+  }
+};
 </script>
 
 <template>
@@ -34,8 +44,12 @@ const addTodo = () => {
         <button class="btn-add-todo" @click="addTodo">+</button>
       </div>
       <div class="card" v-for="item in todo" :key="item.id">
-        <input type="checkbox" class="input-checkbox-item" />
-        <p>{{ item.work }}</p>
+        <input
+          type="checkbox"
+          class="input-checkbox-item"
+          @click="toggleLineThourgh(item.id)"
+        />
+        <p :class="{ done: item.status === 'done' }">{{ item.work }}</p>
       </div>
     </div>
   </div>
@@ -115,5 +129,9 @@ const addTodo = () => {
 
 .input-checkbox-item {
   margin-right: 30px;
+}
+
+.done {
+  text-decoration: line-through;
 }
 </style>
